@@ -1,0 +1,41 @@
+using darwin : mac
+
+using darwin : iphone
+    : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+    -isyroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
+    -fcolor-diagnostics
+    :
+        <cxxflags>-std=c++14
+        <compileflags>-stdlib=libc++
+        <compileflags>-miphoneos-version-min=11.0
+        <define>IPHONEOS_DEPLOYMENT_TARGET=11.0
+        <linkflags>-stdlib=libc++
+        <compileflags>"-arch armv7"
+        <compileflags>"-arch armv7s"
+        <compileflags>"-arch arm64"
+        <linkflags>"-arch armv7"
+        <linkflags>"-arch armv7s"
+        <linkflags>"-arch arm64"
+        <target-os>iphone
+        <macosx-version>iphone-11.0
+    ;
+
+using darwin : iphone-sim
+    : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+    -isyroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
+    -fcolor-diagnostics
+    :
+        <cxxflags>-std=c++14
+        <compileflags>-stdlib=libc++
+        <compileflags>-miphoneos-version-min=11.0
+        <define>IPHONEOS_DEPLOYMENT_TARGET=11.0
+        <linkflags>-stdlib=libc++
+        <compileflags>"-arch armv7"
+        <compileflags>"-arch armv7s"
+        <compileflags>"-arch arm64"
+        <linkflags>"-arch armv7"
+        <linkflags>"-arch armv7s"
+        <linkflags>"-arch arm64"
+        <target-os>iphone
+        <macosx-version>iphone-11.0
+    ;
