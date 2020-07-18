@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57157BE824C396540076C463 /* LibtorrentObjC.mm in Sources */ = {isa = PBXBuildFile; fileRef = 57157BE624C396540076C463 /* LibtorrentObjC.mm */; };
 		57F034F3249E8611001A75D1 /* LibtorrentSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F034F2249E8611001A75D1 /* LibtorrentSwift.swift */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		57157BE524C396530076C463 /* LibtorrentSwift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LibtorrentSwift-Bridging-Header.h"; sourceTree = "<group>"; };
+		57157BE624C396540076C463 /* LibtorrentObjC.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = LibtorrentObjC.mm; sourceTree = "<group>"; };
+		57157BE724C396540076C463 /* LibtorrentObjC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LibtorrentObjC.h; sourceTree = "<group>"; };
 		57F034EF249E8611001A75D1 /* libLibtorrentSwift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLibtorrentSwift.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		57F034F2249E8611001A75D1 /* LibtorrentSwift.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibtorrentSwift.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +62,9 @@
 			isa = PBXGroup;
 			children = (
 				57F034F2249E8611001A75D1 /* LibtorrentSwift.swift */,
+				57157BE624C396540076C463 /* LibtorrentObjC.mm */,
+				57157BE724C396540076C463 /* LibtorrentObjC.h */,
+				57157BE524C396530076C463 /* LibtorrentSwift-Bridging-Header.h */,
 			);
 			path = LibtorrentSwift;
 			sourceTree = "<group>";
@@ -94,6 +101,7 @@
 				TargetAttributes = {
 					57F034EE249E8611001A75D1 = {
 						CreatedOnToolsVersion = 11.4.1;
+						LastSwiftMigration = 1150;
 					};
 				};
 			};
@@ -120,6 +128,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57157BE824C396540076C463 /* LibtorrentObjC.mm in Sources */,
 				57F034F3249E8611001A75D1 /* LibtorrentSwift.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,11 +253,19 @@
 		57F034F7249E8611001A75D1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NWWZNH54A6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LibtorrentSwift/LibtorrentSwift-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -257,11 +274,18 @@
 		57F034F8249E8611001A75D1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NWWZNH54A6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "LibtorrentSwift/LibtorrentSwift-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
