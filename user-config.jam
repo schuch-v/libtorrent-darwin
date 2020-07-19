@@ -5,6 +5,7 @@ using darwin : iphone
     :
         <cxxflags>-std=c++14
         <compileflags>-stdlib=libc++
+        <compileflags>-fembed-bitcode
         <compileflags>-miphoneos-version-min=11.0
         <define>IPHONEOS_DEPLOYMENT_TARGET=11.0
         <linkflags>-stdlib=libc++
@@ -20,6 +21,7 @@ using darwin : iphonesimulator
     :
         <cxxflags>-std=c++14
         <compileflags>-stdlib=libc++
+        <compileflags>-fembed-bitcode
         <compileflags>-miphoneos-version-min=11.0
         <define>IPHONEOS_DEPLOYMENT_TARGET=11.0
         <linkflags>-stdlib=libc++
@@ -36,6 +38,7 @@ using darwin : mac
     :
         <cxxflags>-std=c++14
         <compileflags>-stdlib=libc++
+        <compileflags>-fembed-bitcode
         <linkflags>-stdlib=libc++
         <compileflags>"-arch x86_64"
         <linkflags>"-arch x86_64"
