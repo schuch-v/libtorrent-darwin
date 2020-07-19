@@ -34,6 +34,10 @@ echo "💬 building boost headers for Simulator"
 $BOOST_BUILD_PATH headers cxxstd=14 --user-config=../user-config.jam toolset=darwin-iphonesimulator
 echo "💬 building boost headers for Simulator DONE !"
 
+echo "💬 building boost headers for Mac"
+$BOOST_BUILD_PATH headers cxxstd=14 --user-config=../user-config.jam toolset=darwin-mac
+echo "💬 building boost headers for Mac DONE !"
+
 # Libtorrent
 
 echo "💬 cd ${LIBTORRENT_ROOT}"
@@ -47,13 +51,19 @@ echo "💬 building libtorrent for Simulator"
 $BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-iphonesimulator
 echo "💬 building libtorrent for Simulator DONE !"
 
+echo "💬 building libtorrent for Simulator"
+$BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-mac
+echo "💬 building libtorrent for Simulator DONE !"
+
 echo "💬 Copying build"
 cd $LIBTORRENT_SWIFT_ROOT
-mkdir -p bin/iphone bin/iphonesimulator bin/universal
+mkdir -p bin/iphone bin/iphonesimulator bin/iphoneuniversal bin/mac
 cp libtorrent/bin/darwin-iphone/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/iphone
 cp libtorrent/bin/darwin-iphonesimulator/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/iphonesimulator
+cp libtorrent/bin/darwin-mac/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/mac
+
 echo "💬 Copying build DONE !"
 
 echo "💬 Creating universal binary"
-lipo -create bin/iphone/libtorrent.a bin/iphonesimulator/libtorrent.a -output bin/universal/libtorrent.a
+lipo -create bin/iphone/libtorrent.a bin/iphonesimulator/libtorrent.a -output bin/iphoneuniversal/libtorrent.a
 echo "💬 Creating universal binary DONE !"

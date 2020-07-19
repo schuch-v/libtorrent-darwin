@@ -6,7 +6,7 @@
 //  Copyright © 2020 Victor Schuchmann. All rights reserved.
 //
 
-final class LibtorrentSwift {
+final class Libtorrent {
 
     init() {
         hello_world()

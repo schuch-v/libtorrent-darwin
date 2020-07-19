@@ -1,2 +1,4 @@
 boost-build.jam
 bin
+.DS_Store
+build
