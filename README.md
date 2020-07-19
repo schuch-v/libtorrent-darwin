@@ -1,6 +1,15 @@
-# libtorrent-swift
-libtorrent wrapper in swift
+# libtorrent-darwin
 
-⚠️ boost/tools/build -> develop branch
+This is [libtorrent](https://www.libtorrent.org/) compiled as a static library and bundled into a `.xcframework`
 
-combine .a libs -> https://stackoverflow.com/questions/28057985/how-to-merge-two-a-files-which-is-built-for-armv7-and-i386
+### Compatible with:
+- __iOS__ arm64, x86_64 (iOS 11.0+)
+- __macOS__ x86_64
+
+### How to compile
+
+First make sure you have succesfully cloned the two submodules, `boost` and `libtorrent`,
+then, you have to switch `boost/tools/build` to the branch `develop` because of an [issue](https://trac.macports.org/ticket/60287)
+and finally, run `build_libtorrent.sh`.
+
+If everything went well you will now find `libtorrent.xcframework` in the current directory. 
