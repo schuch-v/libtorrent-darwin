@@ -57,13 +57,8 @@ echo "💬 building libtorrent for Mac DONE !"
 
 echo "💬 Copying build"
 cd $LIBTORRENT_SWIFT_ROOT
-mkdir -p bin/iphone bin/iphonesimulator bin/iphoneuniversal bin/mac
+mkdir -p bin/iphone bin/iphonesimulator bin/mac
 cp libtorrent/bin/darwin-iphone/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/iphone
 cp libtorrent/bin/darwin-iphonesimulator/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/iphonesimulator
 cp libtorrent/bin/darwin-mac/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/mac
-
 echo "💬 Copying build DONE !"
-
-echo "💬 Creating universal binary"
-lipo -create bin/iphone/libtorrent.a bin/iphonesimulator/libtorrent.a -output bin/iphoneuniversal/libtorrent.a
-echo "💬 Creating universal binary DONE !"
