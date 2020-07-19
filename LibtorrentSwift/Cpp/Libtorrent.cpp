@@ -18,7 +18,7 @@
 
 void hello_world()
 {
-    char const *torrent = "";
+    char *torrent = strdup("lol");
     
     lt::session s;
     lt::add_torrent_params p;
@@ -30,4 +30,5 @@ void hello_world()
     char a;
     int ret = std::scanf("%c\n", &a);
     (void)ret; // ignore
+    free(torrent);
 }

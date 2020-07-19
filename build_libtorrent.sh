@@ -51,9 +51,9 @@ echo "💬 building libtorrent for Simulator"
 $BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-iphonesimulator
 echo "💬 building libtorrent for Simulator DONE !"
 
-echo "💬 building libtorrent for Simulator"
+echo "💬 building libtorrent for Mac"
 $BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-mac
-echo "💬 building libtorrent for Simulator DONE !"
+echo "💬 building libtorrent for Mac DONE !"
 
 echo "💬 Copying build"
 cd $LIBTORRENT_SWIFT_ROOT
