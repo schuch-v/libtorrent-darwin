@@ -62,3 +62,14 @@ cp libtorrent/bin/darwin-iphone/debug/cxxstd-14-iso/link-static/threading-multi/
 cp libtorrent/bin/darwin-iphonesimulator/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/iphonesimulator
 cp libtorrent/bin/darwin-mac/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/mac
 echo "💬 Copying build DONE !"
+
+echo "💬 Copying headers !"
+mkdir -p bin/headers
+cp -r boost/boost bin/headers
+cp -r libtorrent/include/libtorrent bin/headers
+echo "💬 Copying headers DONE !"
+
+echo "💬 Building XCFramework"
+xcodebuild -create-xcframework -library bin/iphone/libtorrent.a -headers bin/headers -library bin/iphonesimulator/libtorrent.a -headers bin/headers -library bin/mac/libtorrent.a -headers bin/headers -output libtorrent.xcframework
+echo "💬 Building XCFramework DONE !"
+

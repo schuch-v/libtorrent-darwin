@@ -22,7 +22,7 @@ LDLIBS		=	-ltorrent
 all		:	$(NAME)
 
 $(NAME)		:	$(OBJ)
-			$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS) -framework CoreFoundation -framework SystemConfiguration
+			$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS) -framework SystemConfiguration -framework CoreFoundation
 
 clean		:
 			rm -f $(OBJ)

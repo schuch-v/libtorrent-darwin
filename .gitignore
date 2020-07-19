@@ -3,3 +3,5 @@ bin
 .DS_Store
 build
 *.o
+libtorrent.xcframework
+libtorrent_test
