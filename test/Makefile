@@ -2,9 +2,9 @@ NAME		=	libtorrent_test
 
 CC		=	clang++
 
-SRC		=	main.c	\
+SRC		=	main.mm	\
 
-OBJ		=	$(SRC:.c=.o)
+OBJ		=	$(SRC:.mm=.o)
 
 CXXFLAGS	=	-I../libtorrent/include	\
 			-I../boost/		\
@@ -16,13 +16,13 @@ LDFLAGS		=	-L../bin/mac
 
 LDLIBS		=	-ltorrent
 
-%.o		:	%.cpp
+%.o		:	%.mm
 			$(CC) -o $@ -c $< $(CXXFLAGS)
 
 all		:	$(NAME)
 
 $(NAME)		:	$(OBJ)
-			$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS) -framework SystemConfiguration -framework CoreFoundation
+			$(CC) -o $(NAME) $(OBJ) $(LDFLAGS) $(LDLIBS) -framework SystemConfiguration -framework CoreFoundation -framework Foundation
 
 clean		:
 			rm -f $(OBJ)
