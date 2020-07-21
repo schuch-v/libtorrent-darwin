@@ -8,13 +8,16 @@ This is [libtorrent](https://www.libtorrent.org/) compiled as a static library a
 
 ### How to compile
 
-First make sure you have succesfully cloned the two submodules, `boost` and `libtorrent`,
-then, you have to switch `boost/tools/build` to the branch `develop` because of an [issue](https://trac.macports.org/ticket/60287)
-and finally, run `build_libtorrent.sh`.
+Install [`Xcode`](https://apps.apple.com/app/xcode/id497799835).
+Then install `CommandLineTools` (`$ xcode-select --install`).
+Make sure you have succesfully cloned the two submodules, `boost` and `libtorrent`.
+Switch `boost/tools/build` to the branch `develop` because of an [issue](https://trac.macports.org/ticket/60287).
+Finally, run `build_libtorrent.sh`.
 
 If everything went well you will now find `libtorrent.xcframework` in the current directory. 
 
 ### Credits
+
 [Apple](https://www.apple.com/)
 [libtorrent](https://www.libtorrent.org/)
 [boost](https://www.boost.org/)
