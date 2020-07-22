@@ -9,6 +9,9 @@ BOOST_BUILD_PATH=$BOOST_BUILD_ROOT/b2
 export BOOST_ROOT
 export BOOST_BUILD_PATH
 
+# Set bash script to exit immediately if any commands fail.
+set -e
+
 # Boost Build
 
 echo "💬 cd ${BOOST_BUILD_ROOT}"
@@ -69,7 +72,43 @@ cp -r boost/boost bin/headers
 cp -r libtorrent/include/libtorrent bin/headers
 echo "💬 Copying headers DONE !"
 
-echo "💬 Building XCFramework"
-xcodebuild -create-xcframework -library bin/iphone/libtorrent.a -headers bin/headers -library bin/iphonesimulator/libtorrent.a -headers bin/headers -library bin/mac/libtorrent.a -headers bin/headers -output libtorrent.xcframework
-echo "💬 Building XCFramework DONE !"
+echo "💬 Building static XCFramework"
+mkdir -p bin/framework/static
+xcodebuild -create-xcframework -library bin/iphone/libtorrent.a -headers bin/headers -library bin/iphonesimulator/libtorrent.a -headers bin/headers -library bin/mac/libtorrent.a -headers bin/headers -output bin/framework/static/libtorrent.xcframework
+echo "💬 Building static XCFramework DONE !"
 
+echo "💬 Building dynamic XCFramework"
+cd bin/iphone
+ar -x libtorrent.a
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk -shared *.o -o libtorrent.dylib -framework CoreFoundation -framework SystemConfiguration
+rm *.o __.SYMDEF
+mkdir -p libtorrent.framework/Versions/A/Headers
+cp -rf ../headers/* libtorrent.framework/Versions/A/Headers
+lipo -create libtorrent.dylib -output libtorrent.framework/Versions/A/libtorrent
+ln -sfh A libtorrent.framework/Versions/Current
+ln -sfh Versions/Current/Headers libtorrent.framework/Headers
+ln -sfh Versions/Current/libtorrent libtorrent.framework/libtorrent
+
+cd ..
+cd iphonesimulator
+ar -x libtorrent.a
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk -shared *.o -o libtorrent.dylib -framework CoreFoundation -framework SystemConfiguration
+rm *.o __.SYMDEF
+mkdir -p libtorrent.framework/Versions/A/Headers
+cp -rf ../headers/* libtorrent.framework/Versions/A/Headers
+lipo -create libtorrent.dylib -output libtorrent.framework/Versions/A/libtorrent
+ln -sfh A libtorrent.framework/Versions/Current
+ln -sfh Versions/Current/Headers libtorrent.framework/Headers
+ln -sfh Versions/Current/libtorrent libtorrent.framework/libtorrent
+
+cd ..
+cd mac
+ar -x libtorrent.a
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -arch x86_64 -isysroot  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -shared *.o -o libtorrent.dylib -framework CoreFoundation -framework SystemConfiguration
+rm *.o __.SYMDEF
+mkdir -p libtorrent.framework/Versions/A/Headers
+cp -rf ../headers/* libtorrent.framework/Versions/A/Headers
+lipo -create libtorrent.dylib -output libtorrent.framework/Versions/A/libtorrent
+ln -sfh A libtorrent.framework/Versions/Current
+ln -sfh Versions/Current/Headers libtorrent.framework/Headers
+ln -sfh Versions/Current/libtorrent libtorrent.framework/libtorrent
