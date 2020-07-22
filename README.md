@@ -16,6 +16,10 @@ Finally, run `build_libtorrent.sh`.
 
 If everything went well you will now find `libtorrent.xcframework` in the current directory. 
 
+### CocoaPods
+
+as of right now cocoapod does not support vendored `.xcframework` containing static libs, (see issue [here](https://github.com/CocoaPods/CocoaPods/issues/9528))
+
 ### Credits
 
 [Apple](https://www.apple.com/)
