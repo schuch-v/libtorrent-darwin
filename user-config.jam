@@ -27,7 +27,6 @@ using darwin : iphonesimulator
         <linkflags>-stdlib=libc++
         <compileflags>"-arch x86_64"
         <linkflags>"-arch x86_64"
-        <architecture>x86
         <target-os>iphone
     ;
 
@@ -42,6 +41,5 @@ using darwin : mac
         <linkflags>-stdlib=libc++
         <compileflags>"-arch x86_64"
         <linkflags>"-arch x86_64"
-        <architecture>x86
         <target-os>darwin
     ;
