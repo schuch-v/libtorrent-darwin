@@ -28,42 +28,77 @@ echo "💬 writing boost-build.jam DONE !"
 echo "💬 cd ${LIBTORRENT_ROOT}"
 cd $LIBTORRENT_ROOT
 
+# iPhone
+
 echo "💬 building libtorrent static for iPhone"
 $BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-iphone instruction-set=arm64
 echo "💬 building libtorrent static for iPhone DONE !"
 
-echo "💬 building libtorrent dynamic for iPhone"
+echo "💬 building libtorrent shared for iPhone"
 $BOOST_BUILD_PATH cxxstd=14 link=shared --user-config=../user-config.jam toolset=darwin-iphone instruction-set=arm64
-echo "💬 building libtorrent dynamic for iPhone DONE !"
+echo "💬 building libtorrent shared for iPhone DONE !"
 
-echo "💬 building libtorrent static for Simulator"
+# iPhone Simulator
+
+echo "💬 building libtorrent static for iPhone Simulator"
 $BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-iphonesimulator
-echo "💬 building libtorrent static for Simulator DONE !"
+echo "💬 building libtorrent static for iPhone Simulator DONE !"
 
-echo "💬 building libtorrent dynamic for Simulator"
+echo "💬 building libtorrent shared for iPhone Simulator"
 $BOOST_BUILD_PATH cxxstd=14 link=shared --user-config=../user-config.jam toolset=darwin-iphonesimulator
-echo "💬 building libtorrent dynamic for Simulator DONE !"
+echo "💬 building libtorrent shared for iPhone Simulator DONE !"
+
+# AppleTV
+
+echo "💬 building libtorrent static for AppleTV"
+$BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-appletv instruction-set=arm64
+echo "💬 building libtorrent static for AppleTV DONE !"
+
+echo "💬 building libtorrent shared for AppleTV"
+$BOOST_BUILD_PATH cxxstd=14 link=shared --user-config=../user-config.jam toolset=darwin-appletv instruction-set=arm64
+echo "💬 building libtorrent shared for AppleTV DONE !"
+
+# AppleTV Simulator
+
+echo "💬 building libtorrent static for AppleTV Simulator"
+$BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-appletvsimulator
+echo "💬 building libtorrent static for AppleTV Simulator DONE !"
+
+echo "💬 building libtorrent shared for AppleTV Simulator"
+$BOOST_BUILD_PATH cxxstd=14 link=shared --user-config=../user-config.jam toolset=darwin-appletvsimulator
+echo "💬 building libtorrent shared for AppleTV Simulator DONE !"
+
+# Mac
 
 echo "💬 building libtorrent static for Mac"
 $BOOST_BUILD_PATH cxxstd=14 link=static --user-config=../user-config.jam toolset=darwin-mac
 echo "💬 building libtorrent static for Mac DONE !"
 
-echo "💬 building libtorrent dynamic for Mac"
+echo "💬 building libtorrent shared for Mac"
 $BOOST_BUILD_PATH cxxstd=14 link=shared --user-config=../user-config.jam toolset=darwin-mac
-echo "💬 building libtorrent dynamic for Mac DONE !"
+echo "💬 building libtorrent shared for Mac DONE !"
 
 echo "💬 Copying build"
 cd $LIBTORRENT_SWIFT_ROOT
-mkdir -p bin/iphone bin/iphonesimulator bin/mac
-cp libtorrent/bin/darwin-iphone/debug/cxxstd-14-iso/instruction-set-arm64/link-static/threading-multi/libtorrent.a bin/iphone
-cp libtorrent/bin/darwin-iphone/debug/cxxstd-14-iso/instruction-set-arm64/threading-multi/libtorrent.dylib.1.2.7 bin/iphone
-cp libtorrent/bin/darwin-iphonesimulator/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/iphonesimulator
-cp libtorrent/bin/darwin-iphonesimulator/debug/cxxstd-14-iso/threading-multi/libtorrent.dylib.1.2.7 bin/iphonesimulator
-cp libtorrent/bin/darwin-mac/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/mac
-cp libtorrent/bin/darwin-mac/debug/cxxstd-14-iso/threading-multi/libtorrent.dylib.1.2.7 bin/mac
-cp boost/bin.v2/libs/system/build/darwin-iphone/debug/cxxstd-14-iso/instruction-set-arm64/threading-multi/visibility-hidden/libboost_system.dylib bin/iphone
-cp boost/bin.v2/libs/system/build/darwin-iphonesimulator/debug/cxxstd-14-iso/threading-multi/visibility-hidden/libboost_system.dylib bin/iphonesimulator
-cp boost/bin.v2/libs/system/build/darwin-mac/debug/cxxstd-14-iso/threading-multi/visibility-hidden/libboost_system.dylib bin/mac
+mkdir -p bin/iphone/{static,shared} bin/iphonesimulator/{static,shared} bin/appletv/{static,shared} bin/appletvsimulator/{static,shared} bin/mac/{static,shared}
+cp libtorrent/bin/darwin-iphone/debug/cxxstd-14-iso/instruction-set-arm64/link-static/threading-multi/libtorrent.a bin/iphone/static
+cp libtorrent/bin/darwin-iphone/debug/cxxstd-14-iso/instruction-set-arm64/threading-multi/libtorrent.dylib bin/iphone/shared
+cp libtorrent/bin/darwin-iphonesimulator/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/iphonesimulator/static
+cp libtorrent/bin/darwin-iphonesimulator/debug/cxxstd-14-iso/threading-multi/libtorrent.dylib bin/iphonesimulator/shared
+
+cp libtorrent/bin/darwin-appletv/debug/cxxstd-14-iso/instruction-set-arm64/link-static/threading-multi/libtorrent.a bin/appletv/static
+cp libtorrent/bin/darwin-appletv/debug/cxxstd-14-iso/instruction-set-arm64/threading-multi/libtorrent.dylib bin/appletv/shared
+cp libtorrent/bin/darwin-appletvsimulator/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/appletvsimulator/static
+cp libtorrent/bin/darwin-appletvsimulator/debug/cxxstd-14-iso/threading-multi/libtorrent.dylib bin/appletvsimulator/shared
+
+cp libtorrent/bin/darwin-mac/debug/cxxstd-14-iso/link-static/threading-multi/libtorrent.a bin/mac/static
+cp libtorrent/bin/darwin-mac/debug/cxxstd-14-iso/threading-multi/libtorrent.dylib bin/mac/shared
+
+cp boost/bin.v2/libs/system/build/darwin-iphone/debug/cxxstd-14-iso/instruction-set-arm64/threading-multi/visibility-hidden/libboost_system.dylib bin/iphone/shared
+cp boost/bin.v2/libs/system/build/darwin-iphonesimulator/debug/cxxstd-14-iso/threading-multi/visibility-hidden/libboost_system.dylib bin/iphonesimulator/shared
+cp boost/bin.v2/libs/system/build/darwin-appletv/debug/cxxstd-14-iso/instruction-set-arm64/threading-multi/visibility-hidden/libboost_system.dylib bin/appletv/shared
+cp boost/bin.v2/libs/system/build/darwin-appletvsimulator/debug/cxxstd-14-iso/threading-multi/visibility-hidden/libboost_system.dylib bin/appletvsimulator/shared
+cp boost/bin.v2/libs/system/build/darwin-mac/debug/cxxstd-14-iso/threading-multi/visibility-hidden/libboost_system.dylib bin/mac/shared
 echo "💬 Copying build DONE !"
 
 echo "💬 Copying headers !"
@@ -74,5 +109,11 @@ echo "💬 Copying headers DONE !"
 
 echo "💬 Building XCFramework"
 mkdir -p bin/framework/static
-xcodebuild -create-xcframework -library bin/iphone/libtorrent.a -headers bin/headers -library bin/iphonesimulator/libtorrent.a -headers bin/headers -library bin/mac/libtorrent.a -headers bin/headers -output bin/framework/static/libtorrent.xcframework
+xcodebuild -create-xcframework \
+           -library bin/iphone/static/libtorrent.a -headers bin/headers \
+           -library bin/iphonesimulator/static/libtorrent.a -headers bin/headers \
+           -library bin/appletv/static/libtorrent.a -headers bin/headers \
+           -library bin/appletvsimulator/static/libtorrent.a -headers bin/headers \
+           -library bin/mac/static/libtorrent.a -headers bin/headers \
+           -output bin/framework/static/LibTorrent.xcframework
 echo "💬 Building static XCFramework DONE !"

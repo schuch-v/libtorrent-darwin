@@ -6,8 +6,6 @@ using darwin : iphone
         <cxxflags>-std=c++14
         <compileflags>-stdlib=libc++
         <compileflags>-fembed-bitcode
-        <compileflags>-miphoneos-version-min=11.0
-        <define>IPHONEOS_DEPLOYMENT_TARGET=11.0
         <linkflags>-stdlib=libc++
         <compileflags>"-arch arm64"
         <linkflags>"-arch arm64"
@@ -22,13 +20,39 @@ using darwin : iphonesimulator
         <cxxflags>-std=c++14
         <compileflags>-stdlib=libc++
         <compileflags>-fembed-bitcode
-        <compileflags>-miphoneos-version-min=11.0
-        <define>IPHONEOS_DEPLOYMENT_TARGET=11.0
         <linkflags>-stdlib=libc++
         <compileflags>"-arch x86_64"
         <linkflags>"-arch x86_64"
         <target-os>iphone
     ;
+
+using darwin : appletv
+: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
+-fcolor-diagnostics
+:
+    <cxxflags>-std=c++14
+    <compileflags>-stdlib=libc++
+    <compileflags>-fembed-bitcode
+    <linkflags>-stdlib=libc++
+    <compileflags>"-arch arm64"
+    <linkflags>"-arch arm64"
+    <target-os>iphone
+;
+
+using darwin : appletvsimulator
+: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
+-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator.sdk
+-fcolor-diagnostics
+:
+    <cxxflags>-std=c++14
+    <compileflags>-stdlib=libc++
+    <compileflags>-fembed-bitcode
+    <linkflags>-stdlib=libc++
+    <compileflags>"-arch x86_64"
+    <linkflags>"-arch x86_64"
+    <target-os>iphone
+;
 
 using darwin : mac
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++

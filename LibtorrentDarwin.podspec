@@ -10,7 +10,7 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target  = "11.0"
   spec.osx.deployment_target  = "10.10"
   spec.requires_arc           = true
-  spec.source                 = { :http => "https://github.com/schuch-v/libtorrent-darwin/releases/download/v1.2.7/libtorrent.xcframework.zip" }
+  spec.source                 = { :http => "http://0.0.0.0:8000/libtorrent.xcframework.zip" }
   spec.frameworks             = "CoreFoundation", "SystemConfiguration"
   spec.vendored_frameworks    = "libtorrent.xcframework"
 end
