@@ -4,7 +4,8 @@ This is [libtorrent](https://www.libtorrent.org/) compiled as a static library a
 
 ### Compatible with:
 - __iOS__ arm64, x86_64 (iOS 11.0+)
-- __macOS__ x86_64
+- __tvOS__ arm64, x86_64 (tvOS 11.0+)
+- __macOS__ x86_64 (macOS 10.15+)
 
 ### Work arounds
 
