@@ -14,7 +14,7 @@ APPLETV_LIBRARY_PATH="../bin/appletv"
 APPLETVSIMULATOR_LIBRARY_PATH="../bin/appletvsimulator"
 MAC_LIBRARY_PATH="../bin/mac"
 
-FLAGS="-std=c++14 -stdlib=libc++ -framework CoreFoundation -framework SystemConfiguration"
+FLAGS="-std=c++14 -stdlib=libc++ -fmodules -fcxx-modules -framework CoreFoundation -framework SystemConfiguration -framework Foundation"
 
 mkdir -p bin
 
