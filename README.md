@@ -11,7 +11,7 @@ This is [libtorrent](https://www.libtorrent.org/) compiled as a static library a
 
 - The latest version of Boost have an [issue](https://trac.macports.org/ticket/60287) on macOS, for now, you can switch `boost/tools/build` to the `develop` branch.
 - To be able to compile Boost for `arm64` i had to found a way to prevent `b2` from linking with `-arch armv4t`, because otherwise `ld` would gave the error `ld: unknown/unsupported architecture name for: -arch armv4t`. So i modified Boost build to accept `arm64` as an `instruction-set`. this is not the prettiest solution because now `b2` add two times the flag `-arch arm64` but hey at least it compiles ! Just add `arm64` to the list in the file `boost/tools/build/src/tools/features/instruction-set-feature.jam`
-- When building shared libraries `Libtorrent` add a suffix to the binary (`libtorrent.dylib.X.X.X`) and clang would not let me link with this name so you can comment the code that add this suffix in `libtorrent/Jamfile`. In rule `tag` line `317`, comment out the `if` block.
+- When building shared libraries `Libtorrent` add a suffix to the binary (`libtorrent.dylib.X.X.X`) and clang would not let me link with this name so you can comment the code that add this suffix in `libtorrent/Jamfile`. In rule `tag` line `346`, comment out the `if` block.
 
 ### How to compile
 
