@@ -1,21 +1,20 @@
 #!/bin/sh
 
-LIBTORRENT_SWIFT_ROOT=$(pwd)
-LIBTORRENT_ROOT=$LIBTORRENT_SWIFT_ROOT/libtorrent
-BOOST_ROOT=$LIBTORRENT_SWIFT_ROOT/boost
+LIBTORRENT_DARWIN_ROOT=$(pwd)
+LIBTORRENT_ROOT=$LIBTORRENT_DARWIN_ROOT/libtorrent
+BOOST_ROOT=$LIBTORRENT_DARWIN_ROOT/boost
 BOOST_BUILD_ROOT=$BOOST_ROOT/tools/build/src
 BOOST_BUILD_PATH=$BOOST_ROOT/b2
-USER_CONFIG_JAM=$LIBTORRENT_SWIFT_ROOT/user-config.jam
-TOOLSETS=(
-    darwin-iphone_arm64
-    darwin-iphonesimulator_arm64
-    darwin-iphonesimulator_x86_64
-    darwin-appletv_arm64
-    darwin-appletvsimulator_x86_64
-    darwin-appletvsimulator_arm64
-    darwin-mac_x86_64
-    darwin-mac_arm64
+USER_CONFIG_JAM=$LIBTORRENT_DARWIN_ROOT/user-config.jam
+
+TOOLSET_GROUPS=(
+    "darwin-iphone_arm64"
+    "darwin-iphonesimulator_arm64:darwin-iphonesimulator_x86_64"
+    "darwin-appletv_arm64"
+    "darwin-appletvsimulator_x86_64:darwin-appletvsimulator_arm64"
+    "darwin-mac_x86_64:darwin-mac_arm64"
 )
+
 export BOOST_ROOT
 export BOOST_BUILD_PATH
 
@@ -36,7 +35,7 @@ else
     echo "💬 building Boost"
     ./b2
     echo "💬 writing boost-build.jam"
-    echo "boost-build ${BOOST_BUILD_ROOT} ;" > $LIBTORRENT_SWIFT_ROOT/boost-build.jam
+    echo "boost-build ${BOOST_BUILD_ROOT} ;" > $LIBTORRENT_DARWIN_ROOT/boost-build.jam
 fi
 
 # libtorrent
@@ -44,12 +43,72 @@ fi
 echo "💬 moving to ${LIBTORRENT_ROOT}"
 cd $LIBTORRENT_ROOT
 
-for TOOLSET in ${TOOLSETS[@]} ; do
-    echo "💬 building libtorrent static for ${TOOLSET}"
-    $BOOST_BUILD_PATH --user-config=$USER_CONFIG_JAM threading=multi link=static runtime-link=static variant=release toolset=$TOOLSET
-    echo "💬 building libtorrent shared for ${TOOLSET}"
-    $BOOST_BUILD_PATH --user-config=$USER_CONFIG_JAM threading=multi link=shared runtime-link=shared variant=release toolset=$TOOLSET
+#for TOOLSET_GROUP in ${TOOLSET_GROUPS[@]} ; do
+#    IFS=':' read -ra TOOLSETS <<< "$TOOLSET_GROUP"
+#    for TOOLSET in "${TOOLSETS[@]}"; do
+#        echo "💬 building libtorrent static for ${TOOLSET}"
+#        $BOOST_BUILD_PATH --user-config=$USER_CONFIG_JAM threading=multi link=static runtime-link=static variant=release toolset=$TOOLSET
+#        echo "💬 building libtorrent shared for ${TOOLSET}"
+#        $BOOST_BUILD_PATH --user-config=$USER_CONFIG_JAM threading=multi link=shared runtime-link=shared variant=release toolset=$TOOLSET
+#    done
+#done
+
+# Static XCFramework
+
+echo "💬 moving to ${LIBTORRENT_DARWIN_ROOT}"
+cd $LIBTORRENT_DARWIN_ROOT
+
+LIBTORRENT_FAT_BIN_PATH=./bin/
+
+LIBTORRENT_PRODUCT_PATH=/release/cxxstd-14-iso/link-static/threading-multi/
+LIBTORRENT_PRODUCT_NAME=libtorrent-rasterbar.a
+
+TRY_SIGNAL_PRODUCT_PATH=/release/cxxstd-14-iso/fpic-on/link-static/threading-multi/
+TRY_SIGNAL_PRODUCT_NAME=libtry_signal.a
+
+LIBTORRENT_HEADERS_PATH=./libtorrent/include/libtorrent
+BOOST_HEADERS_PATH=./boost/boost
+TRY_SIGNAL_HEADERS_PATH=./libtorrent/deps/try_signal
+
+HEADERS_PATH=./include
+FINAL_PRODUCT_NAME=libtorrent.a
+
+cp -rf $LIBTORRENT_HEADERS_PATH "${HEADERS_PATH}/libtorrent"
+cp -rf $BOOST_HEADERS_PATH "${HEADERS_PATH}/boost"
+cp -f ${TRY_SIGNAL_HEADERS_PATH}/*.hpp "${HEADERS_PATH}/"
+
+CREATE_XCFRAMEWORK="xcodebuild -create-xcframework "
+
+for TOOLSET_GROUP in ${TOOLSET_GROUPS[@]} ; do
+
+    CREATE_FAT_LIBTORRENT_ARCHIVE="lipo -create"
+    CREATE_FAT_TRY_SIGNAL_ARCHIVE="lipo -create"
+    
+    IFS=':' read -ra TOOLSETS <<< "$TOOLSET_GROUP"
+    for TOOLSET in "${TOOLSETS[@]}"; do
+        CREATE_FAT_LIBTORRENT_ARCHIVE="${CREATE_FAT_LIBTORRENT_ARCHIVE} libtorrent/bin/${TOOLSET}${LIBTORRENT_PRODUCT_PATH}${LIBTORRENT_PRODUCT_NAME}"
+        CREATE_FAT_TRY_SIGNAL_ARCHIVE="${CREATE_FAT_TRY_SIGNAL_ARCHIVE} libtorrent/deps/try_signal/bin/${TOOLSET}${TRY_SIGNAL_PRODUCT_PATH}${TRY_SIGNAL_PRODUCT_NAME}"
+    done
+
+    IFS='_' read -ra TOOLSET_NAME <<< "$TOOLSET_GROUP"
+    TOOLSET_NAME=${TOOLSET_NAME[0]}
+
+    mkdir -p ${LIBTORRENT_FAT_BIN_PATH}${TOOLSET_NAME}${LIBTORRENT_PRODUCT_PATH}
+
+    echo "💬 create fat archive for ${TOOLSET_NAME}"
+    $CREATE_FAT_LIBTORRENT_ARCHIVE -output ${LIBTORRENT_FAT_BIN_PATH}${TOOLSET_NAME}${LIBTORRENT_PRODUCT_PATH}${LIBTORRENT_PRODUCT_NAME}
+    $CREATE_FAT_TRY_SIGNAL_ARCHIVE -output ${LIBTORRENT_FAT_BIN_PATH}${TOOLSET_NAME}${LIBTORRENT_PRODUCT_PATH}${TRY_SIGNAL_PRODUCT_NAME}
+
+    libtool -static -o ${LIBTORRENT_FAT_BIN_PATH}${TOOLSET_NAME}${LIBTORRENT_PRODUCT_PATH}${FINAL_PRODUCT_NAME} \
+                       ${LIBTORRENT_FAT_BIN_PATH}${TOOLSET_NAME}${LIBTORRENT_PRODUCT_PATH}${LIBTORRENT_PRODUCT_NAME} \
+                       ${LIBTORRENT_FAT_BIN_PATH}${TOOLSET_NAME}${LIBTORRENT_PRODUCT_PATH}${TRY_SIGNAL_PRODUCT_NAME}
+
+    CREATE_XCFRAMEWORK="${CREATE_XCFRAMEWORK} -library ${LIBTORRENT_FAT_BIN_PATH}${TOOLSET_NAME}${LIBTORRENT_PRODUCT_PATH}${FINAL_PRODUCT_NAME} -headers ${HEADERS_PATH}"
+
 done
+
+$CREATE_XCFRAMEWORK -output LibTorrent.xcframework
+
 
 #echo "💬 Copying build"
 #cd $LIBTORRENT_SWIFT_ROOT
