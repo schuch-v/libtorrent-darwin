@@ -1,32 +1,32 @@
-BOOST_BUILD = b2
+BOOST_ROOT = $(CURDIR)/boost
+
+BOOST_BUILD = $(BOOST_ROOT)/b2
 
 BOOST_BUILD_JAM = boost-build.jam
 
-BOOST_ROOT = $(CURDIR)/boost
+all: openssl libtorrent
 
-LIBTORRENT_ROOT = $(CURDIR)/libtorrent
-
-.ONESHELL:
-
-all: $(BOOST_BUILD) $(BOOST_BUILD_JAM)
-	BOOST_ROOT=$(BOOST_ROOT) ./$(BOOST_BUILD) link=static variant=release toolset=darwin-iphone -q --user-config=user-config.jam
+libtorrent: $(BOOST_BUILD) $(BOOST_BUILD_JAM)
+	BOOST_ROOT=$(BOOST_ROOT) $(BOOST_BUILD) link=static variant=release toolset=darwin-iphone -q --user-config=user-config.jam
 	
 $(BOOST_BUILD):
-	@./boost/bootstrap.sh
+	cd boost && ./bootstrap.sh
 
 $(BOOST_BUILD_JAM):
 	@printf "boost-build %s/tools/build/src ;" $(BOOST_ROOT) > $(BOOST_BUILD_JAM)
 
-test:
-	echo $(CURDIR)
-
+openssl: export CROSS_TOP=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
+openssl: export CROSS_SDK=iPhoneOS.sdk
+openssl:
+	cd openssl && ./Configure ios-cross no-shared
+	make -C openssl
+	
 clean:
-	@echo "clean"
-
-fclean: clean
 	rm -f $(BOOST_BUILD)
 	rm -f $(BOOST_BUILD_JAM)
 	rm -f project-config.jam
+	make clean -C openssl
 
-re: fclean all
+re: clean all
 
+.PHONY: all libtorrent openssl clean re
