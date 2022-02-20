@@ -10,7 +10,6 @@ BOOST_USER_CONFIG="$PWD/user-config.jam"
 LIBTORRENT_ROOT="$PWD/libtorrent"
 
 OPENSSL_ROOT="$PWD/openssl"
-OPENSSL_INCLUDE="$OPENSSL_ROOT/include"
 OPENSSL_ARM_CONFIGURATION=darwin64-arm64-cc
 OPENSSL_X86_64_CONFIGURATION=darwin64-x86_64-cc
 
@@ -28,7 +27,6 @@ print_paths() {
     echo LIBTORRENT_ROOT $LIBTORRENT_ROOT
     
     echo OPENSSL_ROOT $OPENSSL_ROOT
-    echo OPENSSL_INCLUDE $OPENSSL_INCLUDE
     
     echo IPHONEOS_SDK $IPHONEOS_SDK
     echo IPHONESIMULATOR_SDK $IPHONESIMULATOR_SDK
@@ -89,37 +87,40 @@ build_boost_b2() {
 build_boost() {
     local TOOLSET=$1
     cd $BOOST_ROOT
-    $BOOST_BUILD "--user-config=$BOOST_USER_CONFIG" link=static variant=release "toolset=$TOOLSET"
+    $BOOST_BUILD link=static variant=release toolset=$TOOLSET --user-config=$BOOST_USER_CONFIG
     cd $LIBTORRENT_DARWIN_ROOT
 }
 
 build_boost_all_sdk_and_archs() {
-    build_boost clang-iphone_arm64
-#    build_boost clang-iphonesimulator_arm64
-#    build_boost clang-iphonesimulator_x86_64
-#    build_boost clang-appletv_arm64
-#    build_boost clang-appletvsimulator_arm64
-#    build_boost clang-appletvsimulator_x86_64
-#    build_boost clang-mac_arm64
-#    build_boost clang-mac_x86_64
+    build_boost darwin-iphone_arm64
+    build_boost darwin-iphonesimulator_arm64
+    build_boost darwin-iphonesimulator_x86_64
+    build_boost darwin-appletv_arm64
+    build_boost darwin-appletvsimulator_arm64
+    build_boost darwin-appletvsimulator_x86_64
+    build_boost darwin-mac_arm64
+    build_boost darwin-mac_x86_64
 }
 
 build_libtorrent() {
     local TOOLSET=$1
+    local OPENSSL_LIB="${2##*/SDKs/}"
+    local OPENSSL_INCLUDE=$OPENSSL_ROOT/include
+    export BOOST_ROOT
     cd $LIBTORRENT_ROOT
-    $BOOST_BUILD "--user-config=$BOOST_USER_CONFIG" link=static variant=release "toolset=$TOOLSET"
+    $BOOST_BUILD openssl-lib=$OPENSSL_LIB openssl-include=$OPENSSL_INCLUDE  link=static variant=release toolset=$TOOLSET --user-config=$BOOST_USER_CONFIG
     cd $LIBTORRENT_DARWIN_ROOT
 }
 
 build_libtorrent_all_sdk_and_archs() {
-    build_libtorrent clang-iphone_arm64
-#    build_libtorrent clang-iphonesimulator_arm64
-#    build_libtorrent clang-iphonesimulator_x86_64
-#    build_libtorrent clang-appletv_arm64
-#    build_libtorrent clang-appletvsimulator_arm64
-#    build_libtorrent clang-appletvsimulator_x86_64
-#    build_libtorrent clang-mac_arm64
-#    build_libtorrent clang-mac_x86_64
+    build_libtorrent darwin-iphone_arm64 $IPHONEOS_SDK
+    build_libtorrent darwin-iphonesimulator_arm64 $IPHONESIMULATOR_SDK
+    build_libtorrent darwin-iphonesimulator_x86_64 $IPHONESIMULATOR_SDK
+    build_libtorrent darwin-appletv_arm64 $APPLETVOS_SDK
+    build_libtorrent darwin-appletvsimulator_arm64 $APPLETVSIMULATOR_SDK
+    build_libtorrent darwin-appletvsimulator_x86_64 $APPLETVSIMULATOR_SDK
+    build_libtorrent darwin-mac_arm64 $MACOS_SDK
+    build_libtorrent darwin-mac_x86_64 $MACOS_SDK
 }
 
 set -e
@@ -128,8 +129,8 @@ set -e
 
 #build_openssl_all_sdk_and_archs
 
-build_boost_b2
+#build_boost_b2
 
-build_boost_all_sdk_and_archs
+#build_boost_all_sdk_and_archs
 
 build_libtorrent_all_sdk_and_archs

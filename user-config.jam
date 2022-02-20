@@ -1,4 +1,4 @@
-using clang : iphone_arm64
+using darwin : iphone_arm64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk
     -fcolor-diagnostics
@@ -8,7 +8,7 @@ using clang : iphone_arm64
         <compileflags>"-arch arm64"
     ;
 
-using clang : iphonesimulator_arm64
+using darwin : iphonesimulator_arm64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
     -fcolor-diagnostics
@@ -18,7 +18,7 @@ using clang : iphonesimulator_arm64
         <compileflags>"-arch arm64"
     ;
 
-using clang : iphonesimulator_x86_64
+using darwin : iphonesimulator_x86_64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk
     -fcolor-diagnostics
@@ -28,7 +28,7 @@ using clang : iphonesimulator_x86_64
         <compileflags>"-arch x86_64"
     ;
 
-using clang : appletv_arm64
+using darwin : appletv_arm64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS.sdk
     -fcolor-diagnostics
@@ -38,7 +38,7 @@ using clang : appletv_arm64
         <compileflags>"-arch arm64"
     ;
 
-using clang : appletvsimulator_arm64
+using darwin : appletvsimulator_arm64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator.sdk
     -fcolor-diagnostics
@@ -48,7 +48,7 @@ using clang : appletvsimulator_arm64
         <compileflags>"-arch arm64"
     ;
     
-using clang : appletvsimulator_x86_64
+using darwin : appletvsimulator_x86_64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/AppleTVSimulator.platform/Developer/SDKs/AppleTVSimulator.sdk
     -fcolor-diagnostics
@@ -58,7 +58,7 @@ using clang : appletvsimulator_x86_64
         <compileflags>"-arch x86_64"
     ;
 
-using clang : mac_arm64
+using darwin : mac_arm64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
     -fcolor-diagnostics
@@ -68,7 +68,7 @@ using clang : mac_arm64
         <compileflags>"-arch arm64"
     ;
 
-using clang : mac_x86_64
+using darwin : mac_x86_64
     : /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++
     -isysroot  /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk
     -fcolor-diagnostics
