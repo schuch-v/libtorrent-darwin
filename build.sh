@@ -95,18 +95,17 @@ build_boost() {
 
 build_boost_all_sdk_and_archs() {
     build_boost clang-iphone_arm64
-    build_boost clang-iphonesimulator_arm64
-    build_boost clang-iphonesimulator_x86_64
-    build_boost clang-appletv_arm64
-    build_boost clang-appletvsimulator_arm64
-    build_boost clang-appletvsimulator_x86_64
-    build_boost clang-mac_arm64
-    build_boost clang-mac_x86_64
+#    build_boost clang-iphonesimulator_arm64
+#    build_boost clang-iphonesimulator_x86_64
+#    build_boost clang-appletv_arm64
+#    build_boost clang-appletvsimulator_arm64
+#    build_boost clang-appletvsimulator_x86_64
+#    build_boost clang-mac_arm64
+#    build_boost clang-mac_x86_64
 }
 
 build_libtorrent() {
     local TOOLSET=$1
-    export BOOST_ROOT
     cd $LIBTORRENT_ROOT
     $BOOST_BUILD "--user-config=$BOOST_USER_CONFIG" link=static variant=release "toolset=$TOOLSET"
     cd $LIBTORRENT_DARWIN_ROOT
@@ -125,12 +124,12 @@ build_libtorrent_all_sdk_and_archs() {
 
 set -e
 
-print_paths
+#print_paths
 
 #build_openssl_all_sdk_and_archs
 
 build_boost_b2
 
-#build_boost_all_sdk_and_archs
+build_boost_all_sdk_and_archs
 
 build_libtorrent_all_sdk_and_archs
