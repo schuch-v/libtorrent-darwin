@@ -6,10 +6,23 @@ BOOST_BUILD_JAM = boost-build.jam
 OPENSSL_ROOT = $(CURDIR)/openssl
 OPENSSL_INCLUDE = $(OPENSSL_ROOT)/include
 
+LIBTORRENT_ROOT = $(CURDIR)/libtorrent
+
+
+CROSS_ROOT = Applications/Xcode.app/Contents/Developer/Platforms
+SDKS = \
+	iPhoneOS \
+	iPhoneSimulator \
+	AppleTVOS \
+	AppleTVSimulator \
+	MacOSX \
+
 openssl: export CROSS_TOP=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer
 openssl: export CROSS_SDK=iPhoneOS.sdk
 openssl:
-	cd openssl && ./Configure ios-cross no-shared
+	cd openssl && \
+	CROSS_TOP=$(CROSS_ROOT)/
+	./Configure ios-cross no-shared && \
 	make -C openssl
 
 TOOLSETS = \
@@ -45,7 +58,7 @@ boost: $(BOOST_BUILD)
 # Libtorrent
 
 BUILD_LIBTORRENT = \
-	cd libtorrent && \
+	cd $(LIBTORRENT_ROOT) && \
 	BOOST_ROOT=$(BOOST_ROOT) $(BOOST_BUILD) \
 	-q --user-config=../user-config.jam \
 	openssl-lib=$(OPENSSL_ROOT) \
